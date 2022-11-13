@@ -50,6 +50,5 @@ if [ ! -d "$APP_PATH" ]; then
 	cd $APACHE_ROOT
 	sudo git clone https://github.com/EmanuelCabrera/api-curso-devOps.git
 	cd $APP_PATH
-	sudo git checkout main
 fi
 
