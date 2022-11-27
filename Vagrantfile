@@ -19,7 +19,10 @@ Vagrant.configure("2") do |config|
   # solapen los puertos con los de nuestra equipo en el caso de que ese número de puerto este en uso.
 
   config.vm.network "forwarded_port", guest: 8081, host: 8081
+  config.vm.network "forwarded_port", guest: 8082, host: 8082
   config.vm.network "forwarded_port", guest: 4400, host: 4400
+  # Puerto en que escuchar el servidor maestro de Puppet
+  config.vm.network "forwarded_port", guest: 8140, host: 8140
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -34,7 +37,7 @@ Vagrant.configure("2") do |config|
   # configuración del nombre de maquina
   config.vm.hostname = "utn-devops.localhost"
   config.vm.provider "virtualbox" do |v|
-	v.name = "utn-devops-vagrant-ubuntu-grupo-6"
+	v.name = "utn-devops-vagrant-ubuntu-grupo-6-u3"
   end
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -82,7 +85,14 @@ Vagrant.configure("2") do |config|
   # Además de usarlo como ejemplo para distinguir dos maneras de aprovisionamiento el archivo contiene
   # una definición del firewall de Ubuntu para permitir el tráfico de red que se redirecciona internamente, configuración
   # necesaria para Docker. Luego será copiado al lugar correcto por el script Vagrant.bootstrap.sh
-  config.vm.provision "file", source: "hostConfigs/ufw", destination: "/tmp/ufw"
+  config.vm.provision "file", source: "hostConfigs/ufw", destination: "/tmp/utw"
+  config.vm.provision "file", source: "hostConfigs/etc_hosts.txt", destination: "/tmp/etc_hosts.txt"
+  # Archivos de Puppet
+  config.vm.provision "file", source: "hostConfigs/puppet/site.pp", destination: "/tmp/site.pp"
+  config.vm.provision "file", source: "hostConfigs/puppet/init.pp", destination: "/tmp/init.pp"
+  config.vm.provision "file", source: "hostConfigs/puppet/init_jenkins.pp", destination: "/tmp/init_jenkins.pp"
+  config.vm.provision "file", source: "hostConfigs/puppet/puppet-master.conf", destination: "/tmp/puppet-master.conf"
+  config.vm.provision "file", source: "hostConfigs/puppet/.env", destination: "/tmp/env"
 
   # Con esta sentencia lo que hara Vagrant es transferir este archivo a la máquina Ubuntu
   # y ejecutarlo una vez iniciado. En este caso ahora tendrá el aprovisionamiento para la instalación de Docker
