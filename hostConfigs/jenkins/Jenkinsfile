@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                sh 'cd utn-devops-app/myapp && sudo /usr/local/bin/composer install --no-scripts'
                 sh 'chmod 777 ./utn-devops-app/myapp/bootstrap/cache/'
             }
         }
